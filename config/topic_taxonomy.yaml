@@ -1,0 +1,132 @@
+topics:
+  policy_decision:
+    weight: 1.50
+    keywords:
+      - taxa básica de juros
+      - taxa selic
+      - selic
+      - decidiu
+      - decisão
+      - reduzir
+      - elevar
+      - manter
+      - política monetária
+  forward_guidance:
+    weight: 1.40
+    keywords:
+      - passos futuros
+      - próximos passos
+      - ciclo
+      - magnitude
+      - duração
+      - continuidade
+      - flexibilização
+      - aperto
+      - calibração
+      - condução da política monetária
+  inflation_expectations:
+    weight: 1.30
+    keywords:
+      - expectativas de inflação
+      - expectativas
+      - desancoragem
+      - desancoradas
+      - ancoragem
+      - meta de inflação
+      - acima da meta
+  risk_balance:
+    weight: 1.20
+    keywords:
+      - balanço de riscos
+      - riscos de alta
+      - riscos de baixa
+      - cenário inflacionário
+      - riscos para a inflação
+  fiscal_risk:
+    weight: 1.15
+    keywords:
+      - fiscal
+      - dívida
+      - arcabouço
+      - prêmio de risco
+      - política fiscal
+      - sustentabilidade da dívida
+      - reformas estruturais
+  inflation_current:
+    weight: 1.10
+    keywords:
+      - inflação
+      - núcleos
+      - serviços
+      - bens industriais
+      - alimentos
+      - administrados
+      - ipca
+      - medidas subjacentes
+  external_environment:
+    weight: 1.00
+    keywords:
+      - ambiente externo
+      - cenário externo
+      - estados unidos
+      - fed
+      - china
+      - economia mundial
+      - condições financeiras globais
+      - geopolíticos
+      - geopolíticas
+  activity_growth:
+    weight: 0.95
+    keywords:
+      - atividade econômica
+      - pib
+      - demanda
+      - consumo
+      - investimento
+      - crescimento
+      - desaceleração
+      - moderação
+  labor_market:
+    weight: 0.90
+    keywords:
+      - mercado de trabalho
+      - desemprego
+      - salários
+      - rendimentos
+      - ocupação
+      - emprego
+  credit_conditions:
+    weight: 0.85
+    keywords:
+      - crédito
+      - inadimplência
+      - concessões
+      - condições financeiras
+  fx_commodities:
+    weight: 1.00
+    keywords:
+      - câmbio
+      - taxa de câmbio
+      - commodities
+      - petróleo
+      - brent
+      - repasse cambial
+  uncertainty:
+    weight: 1.00
+    keywords:
+      - incerteza
+      - cautela
+      - serenidade
+      - volatilidade
+      - dependência de dados
+      - novas informações
+  institutional:
+    weight: 0.20
+    keywords:
+      - votaram
+      - presentes
+      - reunião
+      - tabela
+      - notas de rodapé
+      - local
+      - horário

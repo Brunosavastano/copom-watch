@@ -1,0 +1,29 @@
+project:
+  name: COPOM Tone Index
+  prompt_version: copom-tone-v1
+  default_model_version: lexicon-baseline-v1
+
+paths:
+  database: data/copom_tone.duckdb
+  raw: data/raw
+  processed: outputs/processed
+  figures: outputs/figures
+  reports: reports/meeting_notes
+
+pipeline:
+  months: 24
+  copom_quantity: 32
+  request_timeout_seconds: 30
+  retries: 3
+  retry_backoff_seconds: 1.5
+  focus_variables:
+    - Selic
+    - IPCA
+  focus_statistics:
+    statistic: Mediana
+
+scoring:
+  communication_weight: 0.60
+  minutes_weight: 0.40
+  neutral_band: 0.15
+  min_observations_for_surprise: 8

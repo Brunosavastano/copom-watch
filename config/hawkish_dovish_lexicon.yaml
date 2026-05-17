@@ -1,0 +1,72 @@
+hawkish:
+  - term: inflação persistente
+    weight: 2.0
+  - term: persistência inflacionária
+    weight: 2.0
+  - term: expectativas desancoradas
+    weight: 2.0
+  - term: desancoragem
+    weight: 1.8
+  - term: acima da meta
+    weight: 1.5
+  - term: riscos de alta
+    weight: 1.6
+  - term: cautela
+    weight: 1.1
+  - term: incerteza
+    weight: 0.9
+  - term: mercado de trabalho
+    weight: 0.7
+  - term: resiliência
+    weight: 0.9
+  - term: pressões
+    weight: 1.0
+  - term: pressionada
+    weight: 1.0
+  - term: câmbio persistentemente mais depreciada
+    weight: 1.4
+  - term: política monetária restritiva
+    weight: 1.3
+  - term: patamar contracionista
+    weight: 1.2
+  - term: restrição monetária maior
+    weight: 2.0
+  - term: maior e por mais tempo
+    weight: 2.0
+  - term: hiato do produto mais positivo
+    weight: 1.4
+  - term: prêmio de risco
+    weight: 1.0
+  - term: taxa de juros neutra
+    weight: 1.1
+dovish:
+  - term: desinflação
+    weight: 1.7
+  - term: arrefecimento
+    weight: 1.4
+  - term: desaceleração da atividade
+    weight: 1.6
+  - term: desaceleração
+    weight: 1.0
+  - term: moderação
+    weight: 1.0
+  - term: riscos de baixa
+    weight: 1.6
+  - term: benigno
+    weight: 1.1
+  - term: redução nos preços
+    weight: 1.2
+  - term: efeitos desinflacionários
+    weight: 1.7
+  - term: espaço para cortes
+    weight: 1.8
+  - term: flexibilização
+    weight: 1.3
+  - term: reduzir a taxa
+    weight: 1.1
+  - term: convergência da inflação
+    weight: 0.9
+  - term: suavização das flutuações
+    weight: 0.8
+  - term: ociosidade
+    weight: 1.3
