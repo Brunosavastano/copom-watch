@@ -176,8 +176,15 @@ def maybe_classify_with_llm(
         "prompt_version",
     ]
     llm_updates = pd.concat(updates, ignore_index=True)[columns]
-    updated = classified_baseline.drop(columns=[col for col in columns if col in classified_baseline.columns and col != "sentence_id"])
-    updated = updated.merge(llm_updates, on="sentence_id", how="left")
+    updated = classified_baseline.merge(llm_updates, on="sentence_id", how="left", suffixes=("", "_llm"))
+    for column in columns:
+        if column == "sentence_id":
+            continue
+        llm_column = f"{column}_llm"
+        if llm_column not in updated:
+            continue
+        updated[column] = updated[llm_column].combine_first(updated[column])
+        updated = updated.drop(columns=[llm_column])
     return updated
 
 

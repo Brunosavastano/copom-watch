@@ -30,6 +30,10 @@ def load_settings() -> dict[str, Any]:
     return load_yaml(CONFIG_DIR / "settings.yaml")
 
 
+def load_v2_settings() -> dict[str, Any]:
+    return load_yaml(CONFIG_DIR / "v2_settings.yaml")
+
+
 def load_topics() -> dict[str, Any]:
     return load_yaml(CONFIG_DIR / "topic_taxonomy.yaml")["topics"]
 

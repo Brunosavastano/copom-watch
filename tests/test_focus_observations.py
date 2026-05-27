@@ -5,7 +5,9 @@ import pandas as pd
 
 from copom_tone_index.focus import (
     audit_focus_coverage,
+    build_focus_event_features,
     build_focus_revisions_from_observations,
+    build_focus_vintages_from_observations,
     coverage_status,
     fetch_focus_observations_for_meetings,
     import_focus_snapshot,
@@ -110,3 +112,54 @@ def test_focus_coverage_audit_ok_with_high_coverage() -> None:
     coverage = audit_focus_coverage(revisions)
     assert coverage.iloc[0]["status"] == "ok"
     assert overall_focus_coverage_status(coverage) == "ok"
+
+
+def test_focus_v21_vintages_and_event_features_no_lookahead() -> None:
+    observations = normalize_focus_observations(
+        pd.DataFrame(
+            [
+                {"variable": "IPCA", "reference_year": 2024, "date": "2024-03-18", "median": 4.0, "mean": 4.1, "source": "focus_odata"},
+                {"variable": "IPCA", "reference_year": 2024, "date": "2024-03-25", "median": 4.2, "mean": 4.3, "source": "focus_odata"},
+                {"variable": "IPCA", "reference_year": 2024, "date": "2024-03-27", "median": 4.3, "mean": 4.4, "source": "focus_odata"},
+            ]
+        )
+    )
+    events = pd.DataFrame(
+        [
+            {
+                "meeting_id": "copom_1",
+                "nro_reuniao": 1,
+                "document_type": "comunicado",
+                "release_date": pd.Timestamp("2024-03-20"),
+                "known_at_timestamp": pd.Timestamp("2024-03-20 18:30"),
+            }
+        ]
+    )
+
+    vintages = build_focus_vintages_from_observations(observations)
+    features = build_focus_event_features(events, vintages)
+    median = features[(features["indicator"] == "IPCA") & (features["statistic"] == "median")].iloc[0]
+
+    assert median["pre_date"] == pd.Timestamp("2024-03-18")
+    assert median["post_1_date"] == pd.Timestamp("2024-03-25")
+    assert median["post_2_date"] == pd.Timestamp("2024-03-27")
+    assert round(float(median["delta_post_1"]), 6) == 0.2
+    assert median["data_access_tier"] == "PUBLIC_API"
+    assert median["pre_date"] < median["event_date"] < median["post_1_date"]
+
+
+def test_focus_v21_missing_post_event_records_reason() -> None:
+    observations = normalize_focus_observations(
+        pd.DataFrame(
+            [{"variable": "Selic", "reference_year": 2024, "date": "2024-03-18", "median": 10.0, "source": "fixture"}]
+        )
+    )
+    events = pd.DataFrame(
+        [{"meeting_id": "copom_1", "document_type": "ata", "release_date": pd.Timestamp("2024-03-26")}]
+    )
+
+    features = build_focus_event_features(events, build_focus_vintages_from_observations(observations), post_days=3)
+    row = features.iloc[0]
+
+    assert np.isnan(row["delta_post_1"])
+    assert "missing_post_event_1_within_3_days" in row["missing_reason"]

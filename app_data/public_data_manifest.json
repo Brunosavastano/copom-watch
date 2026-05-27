@@ -1,0 +1,409 @@
+{
+  "generated_at": "2026-05-27T03:22:30.726333",
+  "run_id": "v22_package_20260527T032226Z_f31dc6",
+  "source_database": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\data\\copom_tone.duckdb",
+  "package_database": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\app_data\\copom_watch_public.duckdb",
+  "package_sha256": "aa25c98f6a7ab28f233b00a86362fb1c9cbf5b5ea27b7551b2f6a95c7d0e33c5",
+  "tables_included": [
+    {
+      "table": "copom_scores",
+      "required": false,
+      "rows": 12,
+      "columns": [
+        "meeting_id",
+        "nro_reuniao",
+        "data_referencia",
+        "tone_comunicado",
+        "tone_ata",
+        "tone_raw",
+        "tone_nowcast",
+        "tone_final",
+        "tone_z",
+        "copom_tone_index",
+        "delta_tone",
+        "classification",
+        "communication_surprise",
+        "topic_distribution",
+        "selic_pre",
+        "selic_pos",
+        "delta_selic",
+        "in_operational_window"
+      ]
+    },
+    {
+      "table": "copom_meetings",
+      "required": false,
+      "rows": 12,
+      "columns": [
+        "meeting_id",
+        "nro_reuniao",
+        "data_referencia",
+        "data_comunicado",
+        "data_ata",
+        "titulo_ata",
+        "titulo_comunicado",
+        "selic_pre",
+        "selic_pos",
+        "delta_selic",
+        "in_operational_window"
+      ]
+    },
+    {
+      "table": "copom_topic_scores",
+      "required": false,
+      "rows": 150,
+      "columns": [
+        "meeting_id",
+        "topic",
+        "weighted_sum",
+        "weight_sum",
+        "sentence_count",
+        "topic_tone"
+      ]
+    },
+    {
+      "table": "evidence_sentences",
+      "required": false,
+      "rows": 120,
+      "columns": [
+        "sentence_id",
+        "document_id",
+        "meeting_id",
+        "nro_reuniao",
+        "document_type",
+        "sentence_order",
+        "text",
+        "topic",
+        "stance",
+        "stance_score",
+        "confidence",
+        "rationale",
+        "evidence_terms",
+        "model_version",
+        "prompt_version",
+        "evidence_type"
+      ]
+    },
+    {
+      "table": "focus_revisions",
+      "required": false,
+      "rows": 1032,
+      "columns": [
+        "meeting_id",
+        "variable",
+        "reference_year",
+        "focus_pre_date",
+        "focus_pre_value",
+        "focus_pre_source",
+        "focus_post_comunicado_date",
+        "focus_post_comunicado_value",
+        "focus_post_comunicado_source",
+        "focus_post_ata_date",
+        "focus_post_ata_value",
+        "focus_post_ata_source",
+        "delta_post_comunicado",
+        "delta_post_ata",
+        "pre_missing_reason",
+        "post_comunicado_missing_reason",
+        "post_ata_missing_reason"
+      ]
+    },
+    {
+      "table": "v2_meeting_scores",
+      "required": true,
+      "rows": 258,
+      "columns": [
+        "meeting_id",
+        "nro_reuniao",
+        "data_referencia",
+        "tone_comunicado",
+        "tone_ata",
+        "tone_raw",
+        "tone_change",
+        "communication_surprise_naive",
+        "directional_intensity",
+        "informative_sentence_count",
+        "score_status",
+        "run_id",
+        "model_version",
+        "prompt_version",
+        "taxonomy_version",
+        "lexicon_version",
+        "rule_engine_version",
+        "calibration_version",
+        "calibration_window",
+        "tone_z",
+        "copom_tone_index_v2",
+        "classification_v2",
+        "calibration_status"
+      ]
+    },
+    {
+      "table": "v2_subindices",
+      "required": true,
+      "rows": 1856,
+      "columns": [
+        "meeting_id",
+        "subindex",
+        "label",
+        "tone_raw",
+        "sentence_count",
+        "weight_sum",
+        "formula_version",
+        "run_id"
+      ]
+    },
+    {
+      "table": "v2_evidence",
+      "required": true,
+      "rows": 2065,
+      "columns": [
+        "meeting_id",
+        "nro_reuniao",
+        "document_type",
+        "sentence_id",
+        "citation",
+        "evidence_type",
+        "primary_topic",
+        "topics",
+        "stance",
+        "stance_score",
+        "confidence",
+        "information_weight",
+        "tone_level",
+        "text",
+        "rationale",
+        "model_version",
+        "prompt_version",
+        "taxonomy_version",
+        "lexicon_version",
+        "rule_engine_version",
+        "calibration_version",
+        "run_id"
+      ]
+    },
+    {
+      "table": "v2_redline",
+      "required": true,
+      "rows": 54814,
+      "columns": [
+        "meeting_id",
+        "nro_reuniao",
+        "document_type",
+        "change_type",
+        "current_sentence_id",
+        "previous_sentence_id",
+        "similarity",
+        "tone_delta",
+        "current_stance_score",
+        "previous_stance_score",
+        "current_topic",
+        "current_text",
+        "previous_text",
+        "run_id"
+      ]
+    },
+    {
+      "table": "v2_model_audit",
+      "required": false,
+      "rows": 18,
+      "columns": [
+        "run_id",
+        "metric",
+        "value",
+        "status",
+        "detail"
+      ]
+    },
+    {
+      "table": "v2_model_audit_details",
+      "required": false,
+      "rows": 600,
+      "columns": [
+        "run_id",
+        "sentence_id",
+        "label_source",
+        "label_status",
+        "annotator_id",
+        "reviewer_count",
+        "label_conflict",
+        "topic_label",
+        "predicted_topic",
+        "topic_correct",
+        "stance_label",
+        "predicted_stance",
+        "stance_correct",
+        "is_informative_label",
+        "predicted_is_informative",
+        "informativeness_correct"
+      ]
+    },
+    {
+      "table": "focus_event_features",
+      "required": false,
+      "rows": 15725,
+      "columns": [
+        "meeting_id",
+        "nro_reuniao",
+        "event_type",
+        "event_date",
+        "known_at_timestamp",
+        "indicator",
+        "reference_year",
+        "horizon",
+        "statistic",
+        "pre_date",
+        "pre_value",
+        "post_1_date",
+        "post_1_value",
+        "post_2_date",
+        "post_2_value",
+        "delta_post_1",
+        "delta_post_2",
+        "missing_reason",
+        "source",
+        "data_access_tier"
+      ]
+    },
+    {
+      "table": "market_event_windows",
+      "required": false,
+      "rows": 15703,
+      "columns": [
+        "meeting_id",
+        "nro_reuniao",
+        "document_type",
+        "asset",
+        "asset_class",
+        "vertex",
+        "window",
+        "pre_timestamp",
+        "post_timestamp",
+        "pre_value",
+        "post_value",
+        "market_reaction",
+        "known_at_timestamp",
+        "market_close_convention",
+        "data_access_tier",
+        "status"
+      ]
+    },
+    {
+      "table": "decision_expectations",
+      "required": false,
+      "rows": 102,
+      "columns": [
+        "meeting_id",
+        "source",
+        "data_access_tier",
+        "as_of_timestamp",
+        "expected_selic_change_bps",
+        "scenario_selic_change_bps",
+        "probability",
+        "license_note",
+        "source_file",
+        "source_url",
+        "source_method",
+        "source_status",
+        "is_proxy",
+        "proxy_method",
+        "collected_at"
+      ]
+    },
+    {
+      "table": "v21_event_panel",
+      "required": true,
+      "rows": 258,
+      "columns": [
+        "meeting_id",
+        "nro_reuniao",
+        "data_referencia",
+        "selic_decision_bps",
+        "expected_selic_change_bps",
+        "expected_selic_change_official_bps",
+        "expected_selic_change_proxy_bps",
+        "decision_surprise_bps",
+        "decision_surprise_official_bps",
+        "decision_surprise_proxy_bps",
+        "decision_surprise_status",
+        "communication_surprise_naive",
+        "communication_surprise_model",
+        "communication_surprise_model_status",
+        "focus_feature_rows",
+        "focus_delta_coverage",
+        "focus_status",
+        "market_window_rows",
+        "market_ok_windows",
+        "mean_abs_market_reaction",
+        "market_status"
+      ]
+    },
+    {
+      "table": "semantic_chunks",
+      "required": true,
+      "rows": 36386,
+      "columns": [
+        "chunk_id",
+        "sentence_id",
+        "meeting_id",
+        "nro_reuniao",
+        "document_type",
+        "text",
+        "citation",
+        "token_signature",
+        "retrieval_method",
+        "source_hash",
+        "created_at"
+      ]
+    },
+    {
+      "table": "app_manifests",
+      "required": false,
+      "rows": 4,
+      "columns": [
+        "manifest_name",
+        "source_path",
+        "content",
+        "sha256",
+        "loaded_at"
+      ]
+    }
+  ],
+  "tables_skipped": [],
+  "forbidden_tables": [
+    "focus_observations",
+    "focus_vintages",
+    "v2_documents",
+    "v2_labels",
+    "v2_model_predictions",
+    "v2_sentence_scores",
+    "v2_sentences"
+  ],
+  "copied_manifests": [
+    {
+      "name": "release_manifest.json",
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\app_data\\manifests\\release_manifest.json",
+      "sha256": "f445ed52aad89894a30e541b0afa1f43e371600eba160b5cb8a2fe918dd2a292",
+      "bytes": 6119
+    },
+    {
+      "name": "v21_release_manifest.json",
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\app_data\\manifests\\v21_release_manifest.json",
+      "sha256": "5e303c5910c80421498422d205a245b9b7592dcde7473130f801c997dc96da21",
+      "bytes": 5901
+    },
+    {
+      "name": "acceptance_report.json",
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\app_data\\manifests\\acceptance_report.json",
+      "sha256": "56b77b64ba88d28228918c7da46dc4ab2d7fae24c54d05ffd1866d65109b7651",
+      "bytes": 41758
+    },
+    {
+      "name": "v21_acceptance_report.json",
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\app_data\\manifests\\v21_acceptance_report.json",
+      "sha256": "1229fad8e4ba9b995f1783eb0e9aefd18a504db2990bcdb80b09cb3f3d1204c1",
+      "bytes": 4061
+    }
+  ],
+  "status": "completed"
+}

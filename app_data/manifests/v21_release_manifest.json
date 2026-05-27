@@ -1,0 +1,123 @@
+{
+  "version": "v2.1-public-focus-market-acceptance",
+  "status": "completed",
+  "generated_at": "2026-05-27T01:20:55.178183",
+  "run_id": "v21_freeze_20260527T012012Z_eae26b",
+  "database_path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\data\\copom_tone.duckdb",
+  "release_dir": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.1-public-focus-market-acceptance",
+  "rule_engine_version": "taxonomy-rules-v2.0.4",
+  "official_text_index": "deterministic_v2_baseline",
+  "v2_0_release_dependency": "v2.0.4-holdout-stance-hardened",
+  "benchmark_baseline_status": "pass",
+  "v2_health": {
+    "status": "warning",
+    "warnings": 5,
+    "errors": 0
+  },
+  "v21_health": {
+    "status": "warning",
+    "warnings": 3,
+    "errors": 0
+  },
+  "focus_metrics": {
+    "status": "ready",
+    "vintages": 464600,
+    "event_features": 15725,
+    "delta_coverage": 0.9482988871224165
+  },
+  "market_metrics": {
+    "status": "ready",
+    "observations": 31260,
+    "event_windows": 15703,
+    "ok_windows": 3910,
+    "insufficient_market_observations": 11793,
+    "ambiguous_event_timing": 0
+  },
+  "surprise_metrics": {
+    "official_expectation_rows": 0,
+    "proxy_expectation_rows": 102,
+    "official_surprises": 0,
+    "proxy_surprises": 51,
+    "not_available_surprises": 207
+  },
+  "limitations": [
+    "V2.1 is descriptive and associative; event windows are not causal identification.",
+    "Decision surprise official remains unavailable without structured public historical B3 Opcao de Copom data.",
+    "Proxy decision surprises are exploratory and never fill decision_surprise_official_bps.",
+    "V2.1 freezes processed public data already present locally; it does not fetch new data."
+  ],
+  "warnings": [
+    "11793 market windows have insufficient observations.",
+    "B3 Opcao de Copom has no structured public historical feed in this release; official decision surprise remains unavailable.",
+    "Decision expectations are proxy-only and must be treated as exploratory.",
+    "No official decision surprise is available; B3 Opcao de Copom remains unavailable as structured public history."
+  ],
+  "errors": [],
+  "artifacts": [
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.1-public-focus-market-acceptance\\v21_acceptance_report.html",
+      "sha256": "6bf58903c82e73f60acbeb342cc533f6d8009bcf56e06a286ec9485dac8a87be",
+      "bytes": 46405
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.1-public-focus-market-acceptance\\v21_acceptance_report.json",
+      "sha256": "953706913b07a05c781d6f0978771fe3651104f5a46b6d60cfa4cb8c429e0c57",
+      "bytes": 4061
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.1-public-focus-market-acceptance\\v21_macro_market_report.html",
+      "sha256": "f4e89e6fad9d9dc08bda7552b996b5c2a2d7372458ea9d25b30a1ed75ffa866c",
+      "bytes": 16180
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.1-public-focus-market-acceptance\\focus_v21_report.html",
+      "sha256": "02b81d86a88fab234b798b1352aa8ff90fd4bad87e1a511dddd8a54299a28cf0",
+      "bytes": 37871
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.1-public-focus-market-acceptance\\public_market_coverage_report.html",
+      "sha256": "6c9b5f474b6737042e36bd137d238912634dcebae19cea0cd0faaac82dfaed6b",
+      "bytes": 2919
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.1-public-focus-market-acceptance\\market_event_study_report.html",
+      "sha256": "92be09c3743116c9e05726e2ee9fa994584b025018428dc19fc33715c51d1539",
+      "bytes": 24302
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.1-public-focus-market-acceptance\\v21_acceptance_by_meeting.csv",
+      "sha256": "f818c5c1649ca7b127d9538bcdb993e5f07e707a4c62bca6d19d3b2652318408",
+      "bytes": 34046
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.1-public-focus-market-acceptance\\v21_acceptance_by_source.csv",
+      "sha256": "8638542054c0c8568b126e85c77104a7d6cb9630432c50873d87e21eed8b6c9f",
+      "bytes": 1029
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.1-public-focus-market-acceptance\\v21_event_panel.csv",
+      "sha256": "e628080ef51a28464f330f420af23af9c3e0c2d3119cc60508fba4fa8a8d323c",
+      "bytes": 48058
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.1-public-focus-market-acceptance\\focus_v21_coverage.csv",
+      "sha256": "cc57821a11755213b6e5eea29bc6ce01f61b68e54f28c9c074ee3a5279d0363a",
+      "bytes": 7670
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.1-public-focus-market-acceptance\\public_market_coverage.csv",
+      "sha256": "781203eacfa9184115f8bd08f8a52ad55d701ae07bdcc5208cfec1b067d78b96",
+      "bytes": 878
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.1-public-focus-market-acceptance\\market_event_study.csv",
+      "sha256": "f1599c0ed84c739a7ffb672a67c956379d4dc32049887eb758acf21ca3e263d2",
+      "bytes": 2646420
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.1-public-focus-market-acceptance\\decision_expectation_source_audit.csv",
+      "sha256": "bb8ffe08c38d09d130915213f47507e5b88e9fafcec87a4a0151d691da26b99a",
+      "bytes": 366
+    }
+  ]
+}
