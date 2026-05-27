@@ -249,7 +249,7 @@ def normalize_focus_observations(frame: pd.DataFrame) -> pd.DataFrame:
     renamed["source"] = renamed["source"].fillna("focus_odata").astype(str)
     renamed["fetched_at"] = pd.to_datetime(renamed["fetched_at"], errors="coerce")
     if renamed["fetched_at"].isna().any():
-        renamed.loc[renamed["fetched_at"].isna(), "fetched_at"] = pd.Timestamp.now(tz=timezone.utc).tz_localize(None)
+        renamed.loc[renamed["fetched_at"].isna(), "fetched_at"] = pd.Timestamp.now(tz=timezone.utc).tz_localize(None).floor("s")
     renamed["query_signature"] = renamed["query_signature"].fillna("").astype(str)
     normalized = renamed[FOCUS_OBSERVATION_COLUMNS].dropna(subset=["variable", "reference_year", "date", "median"])
     normalized = normalized.drop_duplicates(["variable", "reference_year", "date", "source", "query_signature"])
@@ -590,7 +590,7 @@ def import_focus_snapshot(path: Path, source_date: str | pd.Timestamp) -> pd.Dat
         frame["date"] = source_timestamp
     frame["source_date"] = source_timestamp
     frame["source"] = "focus_report_fallback"
-    frame["fetched_at"] = pd.Timestamp.now(tz=timezone.utc).tz_localize(None)
+    frame["fetched_at"] = pd.Timestamp.now(tz=timezone.utc).tz_localize(None).floor("s")
     frame["query_signature"] = "manual_snapshot_" + _hash_text(str(path.resolve()) + str(source_timestamp.date()))
     return normalize_focus_observations(frame)
 
@@ -935,7 +935,7 @@ def _fetch_focus_query(client: CachedHttpClient, query: dict[str, Any]) -> pd.Da
         return empty_focus_observations()
     frame["source"] = "focus_odata"
     frame["source_date"] = pd.NaT
-    frame["fetched_at"] = pd.Timestamp.now(tz=timezone.utc).tz_localize(None)
+    frame["fetched_at"] = pd.Timestamp.now(tz=timezone.utc).tz_localize(None).floor("s")
     frame["query_signature"] = query_signature
     return normalize_focus_observations(frame)
 

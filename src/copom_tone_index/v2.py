@@ -4382,7 +4382,7 @@ def stable_json(payload: Any) -> str:
 
 
 def utc_now_naive() -> pd.Timestamp:
-    return pd.Timestamp.now(tz=timezone.utc).tz_localize(None)
+    return pd.Timestamp.now(tz=timezone.utc).tz_localize(None).floor("s")
 
 
 def fmt_number(value: Any) -> str:

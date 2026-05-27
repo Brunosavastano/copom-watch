@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-05-27T03:22:30.726333",
-  "run_id": "v22_package_20260527T032226Z_f31dc6",
+  "generated_at": "2026-05-27T03:31:37",
+  "run_id": "v22_package_20260527T033132Z_f31dc6",
   "source_database": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\data\\copom_tone.duckdb",
   "package_database": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\app_data\\copom_watch_public.duckdb",
-  "package_sha256": "aa25c98f6a7ab28f233b00a86362fb1c9cbf5b5ea27b7551b2f6a95c7d0e33c5",
+  "package_sha256": "94e19cb672e607a52d1985fbdc3760959183f5c4920a70791be5a08cfe5259a4",
   "tables_included": [
     {
       "table": "copom_scores",
