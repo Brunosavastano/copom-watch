@@ -712,13 +712,14 @@ def build_market_event_windows(events: pd.DataFrame, observations: pd.DataFrame)
 
 def prepare_market_series(asset: str, vertex: str, series: pd.DataFrame) -> dict[str, Any]:
     ordered = series.sort_values("timestamp").reset_index(drop=True)
-    timestamps = pd.to_datetime(ordered["timestamp"], errors="coerce")
+    timestamps = pd.to_datetime(ordered["timestamp"], errors="coerce").astype("datetime64[ns]")
+    dates = timestamps.dt.normalize().astype("datetime64[ns]")
     return {
         "asset": asset,
         "vertex": vertex,
         "series": ordered,
         "timestamps_ns": timestamps.astype("int64").to_numpy(),
-        "dates_ns": timestamps.dt.normalize().astype("int64").to_numpy(),
+        "dates_ns": dates.astype("int64").to_numpy(),
         "asset_class": first_non_empty(ordered, "asset_class"),
         "data_access_tier": first_non_empty(ordered, "data_access_tier"),
     }
