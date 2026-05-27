@@ -1,0 +1,120 @@
+{
+  "version": "v2.0.4-holdout-stance-hardened",
+  "status": "completed",
+  "generated_at": "2026-05-26T20:13:57.801975",
+  "run_id": "v2_freeze_20260526T201339Z_21b04e",
+  "database_path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\data\\copom_tone.duckdb",
+  "rule_engine_version": "taxonomy-rules-v2.0.4",
+  "calibration_version": "calibration_v1_2006_2019",
+  "benchmark_status": "pass",
+  "health_status": "warning",
+  "health_warnings": 6,
+  "health_errors": 0,
+  "metrics": {
+    "run_id": "v2_benchmark_20260526T201339Z_8a5e93",
+    "sample": "total_consensus",
+    "labels": 900,
+    "unique_sentences": 600,
+    "matched_labels": 600,
+    "topic_accuracy": 0.7,
+    "stance_accuracy": 0.7733333333333333,
+    "informativeness_accuracy": 0.9466666666666668,
+    "stance_f1_macro": 0.7685047825498709,
+    "total_errors": 272,
+    "likely_baseline_error": 177,
+    "taxonomy_boundary_case": 24,
+    "legitimate_taxonomy_ambiguity": 68,
+    "error_rate": 0.4533333333333333
+  },
+  "artifacts": [
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.0.4-holdout-stance-hardened\\acceptance_report.html",
+      "sha256": "15d5c581d2e979835fbbcf721ffb3e8b60c813c7cab81c36a718f8e26960295b",
+      "bytes": 25431
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.0.4-holdout-stance-hardened\\acceptance_report.json",
+      "sha256": "29af4bcea3a2378fb06e63dc1638e32ed65c3ffb44814428754aba384595d2b0",
+      "bytes": 39939
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.0.4-holdout-stance-hardened\\baseline_benchmark_report.html",
+      "sha256": "af9a44e86ae83bef7f9448313557257606195f3d086eeaa3fd9d51f70eb00f12",
+      "bytes": 14740
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.0.4-holdout-stance-hardened\\model_audit.html",
+      "sha256": "f46d537da3991e629617a858c11bcefebe2e82f253e6d4cb77ae652c4e3fb3d1",
+      "bytes": 24634
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.0.4-holdout-stance-hardened\\validation_disagreement_report.html",
+      "sha256": "f89c46e7337f01b9e1158f432fa16688477dcf469558ea15d184d1a47b6bc52c",
+      "bytes": 24529
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.0.4-holdout-stance-hardened\\remaining_error_review.html",
+      "sha256": "78e99d049e94c6a41f345bcdc95feb04567df4dae4cfcb8cdcb3791c8145aa1e",
+      "bytes": 30363
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.0.4-holdout-stance-hardened\\supervised_model_report.html",
+      "sha256": "f7c00cc1987d9825e7d72a8aec576cfdf1d0d35c5b1ded22a9d4d42b98ff52e4",
+      "bytes": 26322
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.0.4-holdout-stance-hardened\\copom_watch_v2_278.html",
+      "sha256": "68ee7f52de33a56e8157020966e13f986f5d1b5b8fbfa2ac2c326b0c6425d217",
+      "bytes": 23767
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.0.4-holdout-stance-hardened\\v2_0_methodology_report.html",
+      "sha256": "79811eeb8aeefefbfae29442e7b9716ea1ce772eb73a0c1d7f8d55019d368a49",
+      "bytes": 2278
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.0.4-holdout-stance-hardened\\baseline_benchmark_by_sample.csv",
+      "sha256": "0d66efaf078ed6d08e5fdf777a0170d8087e597066600fa69190d759468217c5",
+      "bytes": 1014
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.0.4-holdout-stance-hardened\\baseline_benchmark_by_topic.csv",
+      "sha256": "021cfee2956bd13891ed05f879eaaed7df4dc18cccdebf7eac3d055876054013",
+      "bytes": 8441
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.0.4-holdout-stance-hardened\\baseline_benchmark_by_stance.csv",
+      "sha256": "28b7a4b485a6c00fd43a68eeb3d1e2d73ac4ed91c81606bc1516045693b99a9a",
+      "bytes": 2105
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.0.4-holdout-stance-hardened\\model_audit.csv",
+      "sha256": "33473476bb404fa729694dd50a75fd95b293319ac7f68e7b7dabe8b1486bd50f",
+      "bytes": 1944
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.0.4-holdout-stance-hardened\\model_audit_error_classification.csv",
+      "sha256": "faed32e33477067dc5062fcc5e640c64048aaac627c0a2413f952df363cbbe4f",
+      "bytes": 141142
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.0.4-holdout-stance-hardened\\remaining_error_review.csv",
+      "sha256": "c834b2f901a1eb6cddf6c1f97b37acfda150a79a59cc83e8733df37889fbbb22",
+      "bytes": 93758
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.0.4-holdout-stance-hardened\\supervised_model_audit.csv",
+      "sha256": "80fededc98a441328a34277589c4775a322225537c8ea5e11be89981d7dcee59",
+      "bytes": 16972
+    },
+    {
+      "path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.0.4-holdout-stance-hardened\\supervised_model_predictions.csv",
+      "sha256": "dc3e564b31352de17ba24fb9fe03c8d3b6903e1f2c2e1d2f8015d39540bb2818",
+      "bytes": 174308
+    }
+  ],
+  "release_dir": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\releases\\v2.0.4-holdout-stance-hardened",
+  "methodology_report": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\reports\\v2\\v2_0_methodology_report.html",
+  "official_index": "deterministic_v2_baseline",
+  "supervised_model_status": "experimental_not_official"
+}

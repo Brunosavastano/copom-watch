@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 import re
-from datetime import date, datetime, timedelta
+from datetime import date, timedelta
 from typing import Any
 
 import numpy as np
@@ -15,6 +15,11 @@ LOGGER = logging.getLogger(__name__)
 BCB_COPOM_BASE = "https://www.bcb.gov.br/api/servico/sitebcb/copom"
 BCB_SGS_432 = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados"
 BCB_FOCUS_ANNUAL = "https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoAnuais"
+
+
+def copom_detail_url(document_type: str, meeting_number: int) -> str:
+    endpoint = "comunicados_detalhes" if document_type == "comunicado" else "atas_detalhes"
+    return f"{BCB_COPOM_BASE}/{endpoint}?nro_reuniao={int(meeting_number)}"
 
 
 def _as_date(value: Any) -> pd.Timestamp | pd.NaT:
@@ -73,6 +78,7 @@ def fetch_copom_documents(client: CachedHttpClient, quantity: int = 100) -> tupl
         for item in statement_detail:
             meeting_id = f"copom_{nro_reuniao}"
             data_referencia = _as_date(item.get("dataReferencia", item.get("data_referencia")))
+            source_url = item.get("urlComunicado") or item.get("url") or copom_detail_url("comunicado", nro_reuniao)
             meeting_rows[nro_reuniao] = {
                 "meeting_id": meeting_id,
                 "nro_reuniao": nro_reuniao,
@@ -87,7 +93,8 @@ def fetch_copom_documents(client: CachedHttpClient, quantity: int = 100) -> tupl
                     "document_type": "comunicado",
                     "publication_date": data_referencia,
                     "title": item.get("titulo", ""),
-                    "url": None,
+                    "url": item.get("urlComunicado") or item.get("url"),
+                    "source_url": source_url,
                     "raw_text": item.get("textoComunicado", ""),
                     "source": "bcb_copom_comunicados_detalhes",
                 }
@@ -97,6 +104,7 @@ def fetch_copom_documents(client: CachedHttpClient, quantity: int = 100) -> tupl
             meeting_id = f"copom_{nro_reuniao}"
             data_referencia = _as_date(item.get("dataReferencia", item.get("data_referencia")))
             data_publicacao = _as_date(item.get("dataPublicacao", item.get("data_publicacao")))
+            pdf_url = item.get("urlPdfAta")
             meeting_rows[nro_reuniao] = meeting_rows.get(nro_reuniao, {}) | {
                 "meeting_id": meeting_id,
                 "nro_reuniao": nro_reuniao,
@@ -111,7 +119,8 @@ def fetch_copom_documents(client: CachedHttpClient, quantity: int = 100) -> tupl
                     "document_type": "ata",
                     "publication_date": data_publicacao,
                     "title": item.get("titulo", ""),
-                    "url": item.get("urlPdfAta"),
+                    "url": pdf_url,
+                    "source_url": pdf_url or copom_detail_url("ata", nro_reuniao),
                     "raw_text": item.get("textoAta", ""),
                     "source": "bcb_copom_atas_detalhes",
                 }

@@ -3,7 +3,6 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
 
 import pandas as pd
 
@@ -27,7 +26,7 @@ from copom_tone_index.reporting import generate_meeting_notes, write_figures
 from copom_tone_index.scoring import aggregate_scores, evidence_sentences, topic_distribution_json
 from copom_tone_index.storage import export_tables, write_tables
 from copom_tone_index.text import attach_clean_text, build_sentence_frame
-from copom_tone_index.validation import has_errors, validate_pipeline_outputs, write_validation_report
+from copom_tone_index.validation import validate_pipeline_outputs, write_validation_report
 
 LOGGER = logging.getLogger(__name__)
 

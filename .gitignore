@@ -6,15 +6,23 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 streamlit*.log
+*.zip
 
+data/
+outputs/
 data/raw/
+data/labels/
 data/*.duckdb
 data/*.duckdb.wal
 outputs/processed/
 outputs/figures/
 outputs/econometrics/
+outputs/v2/
 reports/meeting_notes/
+reports/v2/
 reports/validation_report.md
 reports/econometric_accuracy_review.md
 
 .env
+.env.*
+!.env.example

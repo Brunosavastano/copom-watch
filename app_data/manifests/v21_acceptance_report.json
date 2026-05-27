@@ -1,0 +1,149 @@
+{
+  "status": "warning",
+  "generated_at": "2026-05-27T02:43:39.488737",
+  "database_path": "C:\\Users\\bruno\\Desktop\\Codex\\Macro\\COPOM_Watch\\data\\copom_tone.duckdb",
+  "summary": {
+    "meetings": 258,
+    "focus_status": "ready",
+    "market_status": "ready",
+    "decision_status": "proxy",
+    "event_panel_status": "ready",
+    "v2_health_status": "warning"
+  },
+  "focus": {
+    "status": "ready",
+    "vintages": 464600,
+    "event_features": 15725,
+    "delta_coverage": 0.9482988871224165,
+    "events": {
+      "ata": 7999,
+      "comunicado": 7726
+    },
+    "indicators": {
+      "PIB Total": 4759,
+      "IPCA": 4693,
+      "Selic": 4693,
+      "Câmbio": 1580
+    },
+    "horizons": {
+      "next_year": 8021,
+      "current_year": 7704
+    },
+    "statistics": {
+      "mean": 3197,
+      "std": 3197,
+      "median": 3197,
+      "maximum": 3067,
+      "minimum": 3067
+    },
+    "missing_reasons": {
+      "missing_pre_event|missing_post_event_1_within_14_days|missing_post_event_2_within_14_days": 569,
+      "missing_post_event_1_within_14_days|missing_post_event_2_within_14_days": 220,
+      "missing_pre_event": 24
+    }
+  },
+  "market": {
+    "status": "ready",
+    "observations": 31260,
+    "event_windows": 15703,
+    "ok_windows": 3910,
+    "ambiguous_event_timing": 0,
+    "insufficient_market_observations": 11793,
+    "assets": {
+      "SELIC_META": 9932,
+      "CDI": 7106,
+      "SELIC_OVER": 7106,
+      "USD_BRL_PTAX": 7106,
+      "ANBIMA_ETTJ_REAL": 5,
+      "ANBIMA_ETTJ_PRE": 5
+    },
+    "windows_by_status": {
+      "insufficient_market_observations": 11793,
+      "ok": 3910
+    },
+    "windows_by_asset": {
+      "ANBIMA_ETTJ_PRE": 4910,
+      "ANBIMA_ETTJ_REAL": 4910,
+      "CDI": 1473,
+      "SELIC_OVER": 1473,
+      "USD_BRL_PTAX": 1473,
+      "SELIC_META": 1464
+    },
+    "source_status": {
+      "ok": 5
+    }
+  },
+  "decision_expectations": {
+    "status": "proxy",
+    "expectation_rows": 102,
+    "official_rows": 0,
+    "proxy_rows": 102,
+    "panel_official_surprises": 0,
+    "panel_proxy_surprises": 51,
+    "sources": {
+      "focus_selic_proxy": 51,
+      "curve_short_rate_proxy": 51
+    },
+    "proxy_methods": {
+      "focus_selic_year_end_minus_current_selic": 51,
+      "short_rate_level_minus_current_selic": 51
+    },
+    "source_audit_status": {
+      "unavailable": 1,
+      "ok": 1
+    }
+  },
+  "event_panel": {
+    "status": "ready",
+    "rows": 258,
+    "focus_ready_rows": 213,
+    "market_ready_rows": 0,
+    "official_surprises": 0,
+    "proxy_surprises": 51,
+    "not_available_surprises": 207,
+    "decision_status_counts": {
+      "not_available_for_meeting": 207,
+      "proxy": 51
+    },
+    "focus_status_counts": {
+      "ok": 213,
+      "limited_data": 32,
+      "invalid_for_inference": 13
+    },
+    "market_status_counts": {
+      "partial_market_data": 258
+    }
+  },
+  "idempotency": {
+    "focus_vintages": 0,
+    "focus_event_features": 0,
+    "market_observations": 0,
+    "market_event_windows": 0,
+    "decision_expectations": 0,
+    "v21_event_panel": 0
+  },
+  "lookahead": {
+    "focus_pre_lookahead_violations": 0,
+    "focus_post_lookahead_violations": 0,
+    "market_lookahead_violations": 0,
+    "decision_expectation_lookahead_violations": 0,
+    "official_proxy_contamination": 0
+  },
+  "v2_health": {
+    "status": "warning",
+    "warnings": 5,
+    "errors": 0
+  },
+  "outputs": {
+    "by_meeting": "outputs/v2/v21_acceptance_by_meeting.csv",
+    "by_source": "outputs/v2/v21_acceptance_by_source.csv",
+    "json": "reports/v2/v21_acceptance_report.json",
+    "html": "reports/v2/v21_acceptance_report.html"
+  },
+  "warnings": [
+    "No official decision surprise is available; B3 Opcao de Copom remains unavailable as structured public history.",
+    "Decision expectations are proxy-only and must be treated as exploratory.",
+    "11793 market windows have insufficient observations."
+  ],
+  "errors": []
+}

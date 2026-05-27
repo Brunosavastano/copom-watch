@@ -1,0 +1,93 @@
+project:
+  scoring_version: copom-watch-v2-baseline
+  taxonomy_version: taxonomy-v2-2026-05
+  lexicon_version: lexicon-v1
+  prompt_version: copom-tone-v2-bootstrap
+  default_model_version: v2-lexicon-baseline
+  rule_engine_version: taxonomy-rules-v2.0.4
+
+backfill:
+  default_quantity: 400
+  min_minutes_meeting: 21
+  min_statement_meeting: 46
+
+scoring:
+  neutral_band: 0.15
+  communication_weight: 0.60
+  minutes_weight: 0.40
+  low_information_threshold: 0.50
+  min_calibration_observations: 8
+  default_calibration: calibration_v1_2006_2019
+
+calibrations:
+  calibration_v1_2006_2019:
+    start: "2006-01-01"
+    end: "2019-12-31"
+    official: true
+  calibration_full_1999_2019:
+    start: "1999-01-01"
+    end: "2019-12-31"
+    official: false
+  calibration_post_2010:
+    start: "2010-01-01"
+    end: "2026-12-31"
+    official: false
+  calibration_recent_2016_2024:
+    start: "2016-01-01"
+    end: "2024-12-31"
+    official: false
+
+subindices:
+  inflation_pressure:
+    label: Inflation Pressure Index
+    topics:
+      - inflation_current
+  expectations_anchoring:
+    label: Expectations Anchoring Index
+    topics:
+      - inflation_expectations
+  risk_balance:
+    label: Risk Balance Index
+    topics:
+      - risk_balance
+      - uncertainty
+  activity_slack:
+    label: Activity Slack Index
+    topics:
+      - activity_growth
+      - labor_market
+      - credit_conditions
+  fiscal_concern:
+    label: Fiscal Concern Index
+    topics:
+      - fiscal_risk
+  external_constraint:
+    label: External Constraint Index
+    topics:
+      - external_environment
+      - fx_commodities
+  forward_guidance:
+    label: Forward Guidance Index
+    topics:
+      - forward_guidance
+      - policy_decision
+
+reaction_function:
+  version: reaction-function-v1
+  label: Text-Implied Reaction Function Index
+  weights:
+    inflation_pressure: 1.00
+    expectations_anchoring: 1.20
+    fiscal_concern: 0.80
+    external_constraint: 0.60
+    risk_balance: 0.70
+    forward_guidance: 0.60
+    activity_slack: -0.70
+
+redline:
+  maintained_similarity: 0.90
+  related_similarity: 0.65
+  tone_change_threshold: 0.15
+
+reports:
+  output_dir: reports/v2
