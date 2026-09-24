@@ -9,8 +9,12 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from copom_tone_index.semantic import ask_semantic_chunks, search_semantic_chunks
-from copom_tone_index.dashboard.ui_copy import (
+from copom_tone_index.dashboard.english import (
+    ask_english_chunks as ask_semantic_chunks,
+    english_citation,
+    search_english_chunks as search_semantic_chunks,
+)
+from copom_tone_index.dashboard.ui_copy_en import (
     APP_POSITIONING,
     ASK_EXAMPLES,
     GLOSSARY,
@@ -24,118 +28,133 @@ DEFAULT_DB = ROOT / "data" / "copom_tone.duckdb"
 PUBLIC_DB = ROOT / "app_data" / "copom_watch_public.duckdb"
 
 APP_TABS = (
-    ("Última reunião", "latest"),
-    ("Evolução do tom", "timeline"),
-    ("Decomposição por temas", "decomposition"),
-    ("Mudanças no texto", "text_changes"),
-    ("Frases-chave", "evidence"),
-    ("Expectativas Focus", "focus"),
-    ("Reação de mercado", "market"),
-    ("Auditoria", "audit"),
-    ("Perguntas com evidências", "ask"),
-    ("Relatórios", "reports"),
-    ("Visão clássica", "legacy"),
+    ("Latest meeting", "latest"),
+    ("Tone over time", "timeline"),
+    ("Topic breakdown", "decomposition"),
+    ("Text changes", "text_changes"),
+    ("Key sentences", "evidence"),
+    ("Focus expectations", "focus"),
+    ("Market reaction", "market"),
+    ("Audit", "audit"),
+    ("Questions with evidence", "ask"),
+    ("Reports", "reports"),
+    ("Classic view", "legacy"),
 )
 
 COLUMN_LABELS = {
-    "nro_reuniao": "Reunião",
-    "data_referencia": "Data",
-    "copom_tone_index": "Índice de tom",
-    "copom_tone_index_v2": "Índice de tom",
-    "classification": "Classificação",
-    "classification_v2": "Classificação",
-    "communication_surprise_naive": "Mudança textual simples",
-    "directional_intensity": "Intensidade direcional",
-    "calibration_status": "Status da calibração",
-    "variable": "Variável",
-    "reference_year": "Ano de referência",
-    "focus_pre_value": "Focus pré-evento",
-    "focus_post_comunicado_value": "Focus pós-comunicado",
-    "focus_post_ata_value": "Focus pós-ata",
-    "delta_post_comunicado": "Delta pós-comunicado",
-    "delta_post_ata": "Delta pós-ata",
-    "evidence_type": "Tipo",
-    "document_type": "Documento",
-    "topic": "Tópico",
-    "primary_topic": "Tópico",
-    "score": "Pontuação",
-    "confidence": "Confiança",
-    "text": "Texto",
-    "rationale": "Justificativa",
-    "citation": "Citação",
-    "tone_level": "Tom",
-    "stance": "Sinal",
-    "label": "Subíndice",
-    "tone_raw": "Tom bruto",
-    "sentence_count": "Sentenças",
-    "change_type": "Mudança",
-    "similarity": "Similaridade",
-    "tone_delta": "Variação do tom",
-    "current_text": "Texto atual",
-    "previous_text": "Texto anterior",
-    "event_type": "Evento",
-    "indicator": "Indicador",
-    "horizon": "Horizonte",
-    "statistic": "Estatística",
-    "pre_value": "Pré-evento",
-    "post_1_value": "Primeiro pós-evento",
-    "post_2_value": "Segundo pós-evento",
-    "delta_post_1": "Delta do primeiro pós-evento",
-    "delta_post_2": "Delta do segundo pós-evento",
-    "missing_reason": "Motivo de ausência",
-    "asset": "Ativo",
-    "vertex": "Vértice",
-    "window": "Janela",
-    "market_reaction": "Reação de mercado",
+    "nro_reuniao": "Meeting",
+    "data_referencia": "Date",
+    "copom_tone_index": "Tone index",
+    "copom_tone_index_v2": "Tone index",
+    "classification": "Classification",
+    "classification_v2": "Classification",
+    "communication_surprise_naive": "Simple textual change",
+    "directional_intensity": "Directional intensity",
+    "calibration_status": "Calibration status",
+    "variable": "Variable",
+    "reference_year": "Reference year",
+    "focus_pre_value": "Pre-event Focus",
+    "focus_post_comunicado_value": "Post-statement Focus",
+    "focus_post_ata_value": "Post-minutes Focus",
+    "delta_post_comunicado": "Post-statement change",
+    "delta_post_ata": "Post-minutes change",
+    "evidence_type": "Type",
+    "document_type": "Document",
+    "topic": "Topic",
+    "primary_topic": "Topic",
+    "score": "Score",
+    "confidence": "Confidence",
+    "text": "Text",
+    "rationale": "Rationale",
+    "citation": "Citation",
+    "tone_level": "Tone",
+    "stance": "Stance",
+    "label": "Subindex",
+    "tone_raw": "Raw tone",
+    "sentence_count": "Sentences",
+    "change_type": "Change",
+    "similarity": "Similarity",
+    "tone_delta": "Tone change",
+    "current_text": "Current text",
+    "previous_text": "Previous text",
+    "event_type": "Event",
+    "indicator": "Indicator",
+    "horizon": "Horizon",
+    "statistic": "Statistic",
+    "pre_value": "Pre-event",
+    "post_1_value": "First post-event",
+    "post_2_value": "Second post-event",
+    "delta_post_1": "First post-event change",
+    "delta_post_2": "Second post-event change",
+    "missing_reason": "Missing-data reason",
+    "asset": "Asset",
+    "vertex": "Tenor",
+    "window": "Window",
+    "market_reaction": "Market reaction",
     "status": "Status",
-    "known_at_timestamp": "Conhecido em",
-    "manifest_name": "Manifesto",
+    "known_at_timestamp": "Known at",
+    "manifest_name": "Manifest",
     "sha256": "SHA-256",
-    "loaded_at": "Carregado em",
-    "rank": "Posição",
-    "retrieval_method": "Método de busca",
+    "loaded_at": "Loaded at",
+    "rank": "Rank",
+    "retrieval_method": "Retrieval method",
 }
 
 VALUE_LABELS = {
-    "Inflation Pressure Index": "Índice de pressão inflacionária",
-    "Expectations Anchoring Index": "Índice de ancoragem das expectativas",
-    "Risk Balance Index": "Índice de balanço de riscos",
-    "Activity Slack Index": "Índice de ociosidade da atividade",
-    "Fiscal Concern Index": "Índice de preocupação fiscal",
-    "External Constraint Index": "Índice de restrição externa",
-    "Forward Guidance Index": "Índice de sinalização futura",
-    "Text-Implied Reaction Function Index": "Índice de função de reação implícita no texto",
-    "inflation_current": "inflação corrente",
-    "inflation_expectations": "expectativas de inflação",
-    "activity_growth": "atividade",
-    "labor_market": "mercado de trabalho",
-    "external_environment": "cenário externo",
-    "fx_commodities": "câmbio e commodities",
-    "fiscal_risk": "risco fiscal",
-    "policy_decision": "decisão de política monetária",
-    "forward_guidance": "sinalização futura",
-    "credit_conditions": "condições de crédito",
-    "risk_balance": "balanço de riscos",
-    "institutional": "institucional",
-    "uncertainty": "incerteza",
-    "hawkish": "restritivo",
-    "dovish": "expansionista",
-    "neutral": "neutro",
-    "added": "adicionada",
-    "removed": "removida",
-    "tone_changed": "mudança de tom",
-    "rewritten": "reescrita",
-    "maintained": "mantida",
-    "ready": "pronto",
-    "partial": "parcial",
-    "not_available": "indisponível",
-    "not_built": "não gerado",
-    "no_market_data": "sem dados de mercado",
-    "limited_data": "dados limitados",
-    "invalid_for_inference": "inválido para inferência",
-    "insufficient_market_observations": "observações insuficientes",
-    "ambiguous_event_timing": "horário do evento ambíguo",
+    "Inflation Pressure Index": "Inflation Pressure Index",
+    "Expectations Anchoring Index": "Expectations Anchoring Index",
+    "Risk Balance Index": "Risk Balance Index",
+    "Activity Slack Index": "Activity Slack Index",
+    "Fiscal Concern Index": "Fiscal Concern Index",
+    "External Constraint Index": "External Constraint Index",
+    "Forward Guidance Index": "Forward Guidance Index",
+    "Text-Implied Reaction Function Index": "Text-Implied Reaction Function Index",
+    "inflation_current": "current inflation",
+    "inflation_expectations": "inflation expectations",
+    "activity_growth": "activity",
+    "labor_market": "labor market",
+    "external_environment": "external environment",
+    "fx_commodities": "FX and commodities",
+    "fiscal_risk": "fiscal risk",
+    "policy_decision": "monetary policy decision",
+    "forward_guidance": "forward guidance",
+    "credit_conditions": "credit conditions",
+    "risk_balance": "risk balance",
+    "institutional": "institutional",
+    "uncertainty": "uncertainty",
+    "hawkish": "hawkish",
+    "dovish": "dovish",
+    "neutral": "neutral",
+    "added": "added",
+    "removed": "removed",
+    "tone_changed": "tone change",
+    "rewritten": "rewritten",
+    "maintained": "maintained",
+    "ready": "ready",
+    "partial": "partial",
+    "not_available": "unavailable",
+    "not_built": "not generated",
+    "no_market_data": "no market data",
+    "limited_data": "limited data",
+    "invalid_for_inference": "invalid for inference",
+    "insufficient_market_observations": "insufficient observations",
+    "ambiguous_event_timing": "ambiguous event timing",
     "ok": "ok",
+    "comunicado": "statement",
+    "ata": "minutes",
+    "neutro/equilibrado": "neutral/balanced",
+    "neutro": "neutral",
+    "contracionista": "hawkish",
+    "expansionista": "dovish",
+    "restritivo": "hawkish",
+    "restritiva": "hawkish",
+    "muito hawkish": "strongly hawkish",
+    "muito dovish": "strongly dovish",
+    "moderadamente dovish": "moderately dovish",
+    "moderadamente hawkish": "moderately hawkish",
+    "neutro / balanceado": "neutral / balanced",
+    "claramente dovish": "clearly dovish",
+    "claramente hawkish": "clearly hawkish",
 }
 
 
@@ -179,11 +198,12 @@ def main() -> None:
     inject_dark_theme()
     st.title("COPOM Watch")
     st.caption(APP_POSITIONING)
+    st.caption("Interface in English. Official quotations remain in their original Portuguese.")
 
     database = os.getenv("COPOM_TONE_DB", str(default_database_path()))
     data = load_data(database)
     if not data:
-        st.warning("Base DuckDB não encontrada. Rode `copom-watch run-pipeline --use-llm never` antes de abrir o painel.")
+        st.warning("DuckDB database not found. Run `copom-watch run-pipeline --use-llm never` before opening the dashboard.")
         st.stop()
 
     scores = data["scores"]
@@ -204,33 +224,33 @@ def main() -> None:
     app_manifests = data.get("app_manifests", pd.DataFrame())
 
     with st.sidebar:
-        st.header("Controles")
+        st.header("Controls")
         period_choice = st.radio(
-            "Período analisado",
-            ["Janela operacional recente", "Histórico completo"],
+            "Analysis period",
+            ["Recent operational window", "Full history"],
             index=0,
-            help=GLOSSARY["Período analisado"],
+            help=GLOSSARY["Analysis period"],
         )
         st.toggle(
-            "Mostrar detalhes técnicos",
+            "Show technical details",
             value=False,
             key="show_technical_details",
-            help="Exibe colunas internas úteis para auditoria, como identificadores, versões e campos de controle.",
+            help="Shows internal audit columns, including identifiers, versions and control fields.",
         )
-        operational_only = period_choice == "Janela operacional recente"
+        operational_only = period_choice == "Recent operational window"
         meeting_source = v2_scores if not v2_scores.empty else scores
         if operational_only and "in_operational_window" in meeting_source:
             scores_view = meeting_source[meeting_source["in_operational_window"]].copy()
         else:
             scores_view = meeting_source.copy()
         if scores_view.empty:
-            st.warning("Sem indicadores disponíveis na base selecionada.")
+            st.warning("No indicators are available in the selected database.")
             st.stop()
         meeting_labels = scores_view.sort_values("data_referencia", ascending=False).apply(
             lambda row: f"{int(row['nro_reuniao'])} - {pd.Timestamp(row['data_referencia']).date()}",
             axis=1,
         )
-        selected_label = st.selectbox("Reunião", meeting_labels.tolist())
+        selected_label = st.selectbox("Meeting", meeting_labels.tolist())
         selected_meeting = scores_view.loc[meeting_labels[meeting_labels == selected_label].index[0], "meeting_id"]
 
     if not v2_scores.empty:
@@ -409,22 +429,24 @@ def _render_legacy_v1_dashboard(
     latest: pd.Series,
     selected_meeting: str,
 ) -> None:
-    st.subheader("Visão clássica")
+    st.subheader("Classic view")
 
     c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Índice", _fmt(latest["copom_tone_index"]), _fmt(latest.get("classification", "")))
-    c2.metric("Variação do tom", _fmt(latest.get("delta_tone")))
-    c3.metric("Selic pós-reunião", _fmt(latest.get("selic_pos")))
-    c4.metric("Variação Selic", _fmt(latest.get("delta_selic")))
+    c1.metric("Index", _fmt(latest["copom_tone_index"]), _fmt(latest.get("classification", "")))
+    c2.metric("Tone change", _fmt(latest.get("delta_tone")))
+    c3.metric("Post-meeting Selic", _fmt(latest.get("selic_pos")))
+    c4.metric("Selic change", _fmt(latest.get("delta_selic")))
 
-    st.subheader("Série temporal")
+    st.subheader("Time series")
+    chart_scores = scores_view.copy()
+    chart_scores["classification"] = chart_scores["classification"].map(_value_label)
     fig = px.line(
-        scores_view,
+        chart_scores,
         x="data_referencia",
         y="copom_tone_index",
         markers=True,
         hover_data=["nro_reuniao", "classification", "tone_comunicado", "tone_ata", "delta_selic"],
-        labels={"data_referencia": "Data", "copom_tone_index": "Índice de tom"},
+        labels={**COLUMN_LABELS, "data_referencia": "Date", "copom_tone_index": "Tone index"},
     )
     fig.add_hline(y=50, line_dash="dash", line_color="gray")
     fig.add_hrect(y0=45, y1=55, line_width=0, fillcolor="gray", opacity=0.08)
@@ -432,10 +454,10 @@ def _render_legacy_v1_dashboard(
 
     left, right = st.columns([1.1, 1])
     with left:
-        st.subheader("Decomposição por tópico")
+        st.subheader("Topic breakdown")
         topic_view = topic_scores[topic_scores["meeting_id"].isin(scores_view["meeting_id"])]
         if topic_view.empty:
-            st.info("Sem tópicos classificados.")
+            st.info("No classified topics.")
         else:
             heatmap = topic_view.pivot_table(index="topic", columns="meeting_id", values="topic_tone", aggfunc="mean")
             fig = px.imshow(
@@ -444,14 +466,14 @@ def _render_legacy_v1_dashboard(
                 color_continuous_scale="RdBu_r",
                 zmin=-1,
                 zmax=1,
-                labels={"color": "Tom"},
+                labels={"color": "Tone"},
             )
             st.plotly_chart(fig, use_container_width=True)
     with right:
-        st.subheader("Revisões Focus")
+        st.subheader("Focus revisions")
         focus_view = focus[focus["meeting_id"] == selected_meeting].copy()
         if focus_view.empty:
-            st.info("Focus indisponível para esta reunião.")
+            st.info("Focus data are unavailable for this meeting.")
         else:
             display_cols = [
                 "variable",
@@ -464,10 +486,10 @@ def _render_legacy_v1_dashboard(
             ]
             st.dataframe(_display_frame(focus_view[display_cols]), use_container_width=True, hide_index=True)
 
-    st.subheader("Evidências textuais")
+    st.subheader("Textual evidence")
     ev = evidence[evidence["meeting_id"] == selected_meeting].copy()
     if ev.empty:
-        st.info("Nenhuma evidência classificada para esta reunião.")
+        st.info("No classified evidence for this meeting.")
     else:
         ev["score"] = ev["stance_score"].map(lambda value: f"{value:.2f}")
         st.dataframe(
@@ -476,13 +498,13 @@ def _render_legacy_v1_dashboard(
             hide_index=True,
         )
 
-    with st.expander("Tabela de indicadores"):
+    with st.expander("Indicator table"):
         st.dataframe(_display_frame(scores_view), use_container_width=True, hide_index=True)
 
 
 def _fmt(value: object) -> str:
     if pd.isna(value):
-        return "s.d."
+        return "n/a"
     if isinstance(value, str):
         return str(_value_label(value))
     return f"{float(value):.2f}"
@@ -490,7 +512,7 @@ def _fmt(value: object) -> str:
 
 def _status_label(value: object) -> str:
     if pd.isna(value):
-        return "s.d."
+        return "n/a"
     text = str(value)
     return _value_label(text)
 
@@ -545,13 +567,13 @@ def render_page_intro(page_key: str) -> None:
         "\n".join(
             [
                 "<div class='copom-guide'>",
-                "<h3>O que esta página responde</h3>",
+                "<h3>What this page explains</h3>",
                 f"<p>{_html_escape(page.question)}</p>",
-                "<strong>Como ler</strong>",
+                "<strong>How to read</strong>",
                 "<ul>",
                 *[f"<li>{_html_escape(item)}</li>" for item in page.how_to_read],
                 "</ul>",
-                "<strong>Limitações</strong>",
+                "<strong>Limitations</strong>",
                 "<ul>",
                 *[f"<li>{_html_escape(item)}</li>" for item in page.limitations],
                 "</ul>",
@@ -560,19 +582,19 @@ def render_page_intro(page_key: str) -> None:
         ),
         unsafe_allow_html=True,
     )
-    with st.expander("Glossário desta página"):
+    with st.expander("Page glossary"):
         for term in page.glossary_terms:
             st.markdown(f"**{term}**: {GLOSSARY[term]}")
 
 
 def render_methodology_overview() -> None:
-    with st.expander("Metodologia em linguagem simples", expanded=False):
+    with st.expander("Methodology in plain language", expanded=False):
         st.markdown(f"<div class='copom-methodology'>{_html_escape(METHODOLOGY_OVERVIEW)}</div>", unsafe_allow_html=True)
         st.markdown(
-            "- Os textos vêm de comunicados e atas oficiais do Copom.\n"
-            "- O índice resume a direção da linguagem, não a decisão de política monetária.\n"
-            "- Mudança textual, Focus e mercado são camadas auxiliares de interpretação.\n"
-            "- O app não faz previsão da Selic e não afirma causalidade em janelas de evento."
+            "- The texts come from official Copom statements and minutes.\n"
+            "- The index summarizes the direction of the language, not the policy decision.\n"
+            "- Text changes, Focus expectations and markets provide additional context.\n"
+            "- The app does not forecast Selic or establish causality in event windows."
         )
 
 
@@ -580,10 +602,7 @@ def _value_label(value: object) -> object:
     if pd.isna(value):
         return value
     text = str(value)
-    translated = VALUE_LABELS.get(text, text.replace("_", " "))
-    if isinstance(translated, str):
-        translated = translated.replace("hawkish", "restritivo").replace("dovish", "expansionista")
-    return translated
+    return VALUE_LABELS.get(text, text.replace("_", " "))
 
 
 def _display_frame(frame: pd.DataFrame) -> pd.DataFrame:
@@ -591,7 +610,12 @@ def _display_frame(frame: pd.DataFrame) -> pd.DataFrame:
         return frame
     display = frame.copy()
     for column in display.select_dtypes(include="object").columns:
-        display[column] = display[column].map(_value_label)
+        if column in {"text", "current_text", "previous_text", "rationale", "source_hash", "sha256"}:
+            continue
+        if column == "citation":
+            display[column] = display[column].map(english_citation)
+        else:
+            display[column] = display[column].map(_value_label)
     return display.rename(columns={column: COLUMN_LABELS.get(column, column) for column in display.columns})
 
 
@@ -602,19 +626,19 @@ def _show_technical_details() -> bool:
 def friendly_report_name(path: Path) -> str:
     name = path.stem
     if "acceptance" in name:
-        return "Relatório de aceite"
+        return "Acceptance report"
     if "release" in name:
-        return "Resumo de versão"
+        return "Release summary"
     if "macro_market" in name:
-        return "Relatório macro e mercado"
+        return "Macro and market report"
     if "semantic" in name:
-        return "Relatório de busca com evidências"
+        return "Evidence search report"
     if "benchmark" in name:
-        return "Benchmark metodológico"
+        return "Methodology benchmark"
     if "audit" in name:
-        return "Auditoria metodológica"
+        return "Methodology audit"
     if "copom_watch" in name:
-        return "Relatório da reunião"
+        return "Meeting report"
     return name.replace("_", " ").capitalize()
 
 
@@ -684,33 +708,36 @@ def _render_v22_product_dashboard(
     with tabs[10]:
         render_page_intro("legacy")
         if legacy_latest.empty:
-            st.info("Visão clássica indisponível no pacote atual.")
+            st.info("Classic view is unavailable in the current data package.")
         else:
             _render_legacy_v1_dashboard(scores, topic_scores, evidence_v1, focus_v1, legacy_latest, str(latest["meeting_id"]))
 
 
 def _render_v22_status_cards(v21_event_panel: pd.DataFrame, app_manifests: pd.DataFrame) -> None:
-    st.markdown("**Status de produto**")
+    st.markdown("**Product status**")
     c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Índice textual", "congelado")
-    c2.metric("Expectativas e mercado", "congelado")
-    c3.metric("Eventos analisados", f"{len(v21_event_panel):,}".replace(",", ".") if not v21_event_panel.empty else "s.d.")
-    c4.metric("Manifestos", str(len(app_manifests)) if not app_manifests.empty else "s.d.")
+    c1.metric("Text index", "frozen")
+    c2.metric("Expectations and markets", "frozen")
+    c3.metric("Events analyzed", f"{len(v21_event_panel):,}" if not v21_event_panel.empty else "n/a")
+    c4.metric("Manifests", str(len(app_manifests)) if not app_manifests.empty else "n/a")
 
 
 def _render_v2_timeline(v2_scores: pd.DataFrame) -> None:
     if v2_scores.empty:
-        st.info("Série indisponível.")
+        st.info("Time series unavailable.")
         return
     y_col = "copom_tone_index_v2" if "copom_tone_index_v2" in v2_scores else "tone_raw"
     hover = [col for col in ["nro_reuniao", "classification_v2", "communication_surprise_naive", "directional_intensity"] if col in v2_scores]
+    chart_scores = v2_scores.copy()
+    if "classification_v2" in chart_scores:
+        chart_scores["classification_v2"] = chart_scores["classification_v2"].map(_value_label)
     fig = px.line(
-        v2_scores.sort_values("data_referencia"),
+        chart_scores.sort_values("data_referencia"),
         x="data_referencia",
         y=y_col,
         markers=True,
         hover_data=hover,
-        labels={"data_referencia": "Data", y_col: "Índice de tom"},
+        labels={**COLUMN_LABELS, "data_referencia": "Date", y_col: "Tone index"},
     )
     fig.add_hline(y=0 if y_col == "tone_raw" else 50, line_dash="dash", line_color="gray")
     st.plotly_chart(fig, use_container_width=True)
@@ -736,16 +763,16 @@ def _render_v2_timeline(v2_scores: pd.DataFrame) -> None:
 
 def _render_v2_topic_decomposition(v2_scores: pd.DataFrame, subindices: pd.DataFrame) -> None:
     if subindices.empty:
-        st.info("Subíndices indisponíveis.")
+        st.info("Subindices unavailable.")
         return
     c1, c2 = st.columns([1, 2])
     labels = sorted(subindices.get("label", pd.Series(dtype=str)).dropna().astype(str).unique())
     label_options = {str(_value_label(label)): label for label in labels}
     selected_display = c1.multiselect(
-        "Subíndices",
+        "Subindices",
         list(label_options.keys()),
         default=list(label_options.keys()),
-        help=GLOSSARY["Subíndices"],
+        help=GLOSSARY["Subindices"],
     )
     selected = [label_options[label] for label in selected_display]
     filtered = subindices[subindices["label"].isin(selected)].copy() if selected else subindices.copy()
@@ -755,7 +782,7 @@ def _render_v2_topic_decomposition(v2_scores: pd.DataFrame, subindices: pd.DataF
         filtered = filtered.merge(v2_scores[["meeting_id", "data_referencia"]], on="meeting_id", how="left")
     with c2:
         if not filtered.empty and {"data_referencia", "tone_raw", "label"}.issubset(filtered.columns):
-            fig = px.line(filtered.sort_values("data_referencia"), x="data_referencia", y="tone_raw", color="label", labels={"tone_raw": "Tom bruto"})
+            fig = px.line(filtered.sort_values("data_referencia"), x="data_referencia", y="tone_raw", color="label", labels={**COLUMN_LABELS, "tone_raw": "Raw tone"})
             fig.add_hline(y=0, line_dash="dash", line_color="gray")
             st.plotly_chart(fig, use_container_width=True)
     if not _show_technical_details():
@@ -779,40 +806,40 @@ def _render_v21_market_reaction(
 
 def _render_v2_ask_copom_watch(semantic_chunks: pd.DataFrame) -> None:
     if semantic_chunks.empty:
-        st.info("Índice semântico local indisponível. Rode `copom-watch semantic build-index --method tfidf`.")
+        st.info("Local semantic index unavailable. Run `copom-watch semantic build-index --method tfidf`.")
         return
-    render_help_heading("Busca com evidências", level=3, text="Perguntas com evidências oficiais")
+    render_help_heading("Evidence search", level=3, text="Questions with official evidence")
     st.markdown(
-        "Use esta busca para investigar linguagem, temas e casos históricos em documentos oficiais do Copom. "
-        "A resposta pode sintetizar implicações, mas sempre precisa ficar ancorada nas citações recuperadas. "
-        "Perguntas sobre previsão da próxima Selic são recusadas com uma explicação de escopo."
+        "Search language, topics and historical cases in official Copom documents. "
+        "Answers must remain grounded in the retrieved citations. "
+        "Questions that ask for a Selic forecast receive an explanation of the app's scope."
     )
-    st.caption("Exemplos de consulta")
+    st.caption("Example questions")
     example_cols = st.columns(2)
     for index, example in enumerate(ASK_EXAMPLES):
         if example_cols[index % 2].button(example, key=f"ask_example_{index}"):
             st.session_state["ask_query"] = example
     with st.form("v22_ask_form"):
         query = st.text_input(
-            "Pergunte ao COPOM Watch",
+            "Ask COPOM Watch",
             value=st.session_state.get("ask_query", ""),
-            placeholder="Ex.: Quando o Copom falou de expectativas desancoradas?",
-            help=GLOSSARY["Busca com evidências"],
+            placeholder="E.g. When did Copom discuss unanchored expectations?",
+            help=GLOSSARY["Evidence search"],
         )
-        top_n = st.number_input("Citações", min_value=3, max_value=12, value=8, step=1, help=GLOSSARY["Frases-chave"])
-        submitted = st.form_submit_button("Responder com citações")
+        top_n = st.number_input("Citations", min_value=3, max_value=12, value=8, step=1, help=GLOSSARY["Key sentences"])
+        submitted = st.form_submit_button("Answer with citations")
     if not submitted:
         return
     answer, citations = ask_semantic_chunks(query, semantic_chunks, top_n=int(top_n), method="tfidf")
     if not answer:
-        st.info("Nenhuma citação encontrada para esta consulta.")
+        st.info("No citations found for this question.")
         return
     st.markdown(answer.replace("\n", "\n\n"))
     st.dataframe(_display_frame(citations), use_container_width=True, hide_index=True)
 
 
 def _render_reports_panel(app_manifests: pd.DataFrame) -> None:
-    st.markdown("**Manifestos de versão e relatórios**")
+    st.markdown("**Release manifests and reports**")
     if not app_manifests.empty:
         cols = [col for col in ["manifest_name", "sha256", "loaded_at"] if col in app_manifests]
         manifest_view = app_manifests[cols].copy()
@@ -822,10 +849,10 @@ def _render_reports_panel(app_manifests: pd.DataFrame) -> None:
     report_dir = ROOT / "reports" / "v2"
     reports = sorted(report_dir.glob("*.html")) if report_dir.exists() else []
     if reports:
-        report_rows = pd.DataFrame({"Relatório": [friendly_report_name(path) for path in reports]})
+        report_rows = pd.DataFrame({"Report": [friendly_report_name(path) for path in reports]})
         st.dataframe(report_rows, use_container_width=True, hide_index=True)
     else:
-        st.info("Relatórios HTML locais não estão presentes neste ambiente.")
+        st.info("Local HTML reports are not available in this environment.")
 
 
 def _render_v2_dashboard(
@@ -841,9 +868,9 @@ def _render_v2_dashboard(
     v21_event_panel: pd.DataFrame,
     semantic_chunks: pd.DataFrame,
 ) -> None:
-    st.subheader("Painel da última reunião")
+    st.subheader("Latest meeting dashboard")
     overview_tab, evidence_tab, redline_tab, v21_tab, search_tab, audit_tab = st.tabs(
-        ["Painel", "Evidências", "Mudança textual", "Macro e mercado", "Busca", "Auditoria"]
+        ["Dashboard", "Evidence", "Text change", "Macro and markets", "Search", "Audit"]
     )
     with overview_tab:
         _render_v2_cockpit(latest, subindices, evidence, redline)
@@ -866,11 +893,11 @@ def _render_v2_cockpit(
     redline: pd.DataFrame,
 ) -> None:
     c1, c2, c3, c4, c5 = st.columns(5)
-    render_metric_card(c1, "Tom bruto", _fmt(latest.get("tone_raw")))
-    render_metric_card(c2, "Índice de tom", _fmt(latest.get("copom_tone_index_v2")), _fmt(latest.get("classification_v2", "")))
-    render_metric_card(c3, "Surpresa textual", _fmt(latest.get("communication_surprise_naive")))
-    render_metric_card(c4, "Intensidade", _fmt(latest.get("directional_intensity")))
-    render_metric_card(c5, "Calibração", str(latest.get("calibration_status", "s.d.")))
+    render_metric_card(c1, "Raw tone", _fmt(latest.get("tone_raw")))
+    render_metric_card(c2, "Tone index", _fmt(latest.get("copom_tone_index_v2")), _fmt(latest.get("classification_v2", "")))
+    render_metric_card(c3, "Textual surprise", _fmt(latest.get("communication_surprise_naive")))
+    render_metric_card(c4, "Intensity", _fmt(latest.get("directional_intensity")))
+    render_metric_card(c5, "Calibration", str(latest.get("calibration_status", "n/a")))
 
     meeting_id = latest["meeting_id"]
     bullets = _v2_bullets(latest, subindices[subindices["meeting_id"] == meeting_id])
@@ -879,23 +906,23 @@ def _render_v2_cockpit(
 
     left, right = st.columns([1, 1])
     with left:
-        render_help_heading("Subíndices", level=3)
+        render_help_heading("Subindices", level=3)
         sub = subindices[subindices["meeting_id"] == meeting_id].copy()
         if sub.empty:
-            st.info("Subíndices indisponíveis.")
+            st.info("Subindices unavailable.")
         else:
             st.dataframe(_display_frame(sub[["label", "tone_raw", "sentence_count"]]), use_container_width=True, hide_index=True)
     with right:
-        render_help_heading("Mudança textual", level=3, text="O que mudou")
+        render_help_heading("Text change", level=3, text="What changed")
         changes = redline[(redline["meeting_id"] == meeting_id) & (redline["change_type"].isin(["added", "tone_changed"]))].copy()
         if changes.empty:
-            st.info("Mudança textual indisponível para esta reunião.")
+            st.info("Text changes are unavailable for this meeting.")
         else:
             st.dataframe(_display_frame(changes[["document_type", "change_type", "tone_delta", "current_text"]].head(8)), use_container_width=True, hide_index=True)
 
     ev = evidence[evidence["meeting_id"] == meeting_id].copy()
     if not ev.empty:
-        with st.expander("Frases-chave mais relevantes"):
+        with st.expander("Most relevant key sentences"):
             evidence_cols = [col for col in ["evidence_type", "citation", "document_type", "primary_topic", "tone_level", "text"] if col in ev]
             st.dataframe(_display_frame(ev[evidence_cols]), use_container_width=True, hide_index=True)
 
@@ -904,15 +931,15 @@ def _render_v2_evidence_explorer(latest: pd.Series, evidence: pd.DataFrame) -> N
     meeting_id = latest["meeting_id"]
     ev = evidence[evidence["meeting_id"] == meeting_id].copy()
     if ev.empty:
-        st.info("Sem evidências para esta reunião.")
+        st.info("No evidence for this meeting.")
         return
     c1, c2, c3 = st.columns(3)
     evidence_types = sorted(ev.get("evidence_type", pd.Series(dtype=str)).dropna().astype(str).unique())
     document_types = sorted(ev.get("document_type", pd.Series(dtype=str)).dropna().astype(str).unique())
     topics = sorted(ev.get("primary_topic", pd.Series(dtype=str)).dropna().astype(str).unique())
-    selected_evidence = c1.multiselect("Tipo", evidence_types, default=evidence_types, key="v2_evidence_type_filter")
-    selected_documents = c2.multiselect("Documento", document_types, default=document_types, key="v2_evidence_document_filter")
-    selected_topics = c3.multiselect("Tópico", topics, default=topics, key="v2_evidence_topic_filter")
+    selected_evidence = c1.multiselect("Type", evidence_types, default=evidence_types, key="v2_evidence_type_filter", format_func=_value_label)
+    selected_documents = c2.multiselect("Document", document_types, default=document_types, key="v2_evidence_document_filter", format_func=_value_label)
+    selected_topics = c3.multiselect("Topic", topics, default=topics, key="v2_evidence_topic_filter", format_func=_value_label)
     filtered = filter_v2_evidence(ev, meeting_id, selected_evidence, selected_documents, selected_topics)
     cols = [
         col
@@ -926,14 +953,14 @@ def _render_v2_redline_explorer(latest: pd.Series, redline: pd.DataFrame) -> Non
     meeting_id = latest["meeting_id"]
     changes = redline[redline["meeting_id"] == meeting_id].copy()
     if changes.empty:
-        st.info("Sem mudança textual para esta reunião.")
+        st.info("No text changes for this meeting.")
         return
     c1, c2 = st.columns(2)
     change_types = sorted(changes.get("change_type", pd.Series(dtype=str)).dropna().astype(str).unique())
     document_types = sorted(changes.get("document_type", pd.Series(dtype=str)).dropna().astype(str).unique())
     default_changes = [item for item in ["added", "tone_changed", "rewritten", "removed"] if item in change_types] or change_types
-    selected_changes = c1.multiselect("Mudança", change_types, default=default_changes, key="v2_redline_change_filter")
-    selected_documents = c2.multiselect("Documento", document_types, default=document_types, key="v2_redline_document_filter")
+    selected_changes = c1.multiselect("Change", change_types, default=default_changes, key="v2_redline_change_filter", format_func=_value_label)
+    selected_documents = c2.multiselect("Document", document_types, default=document_types, key="v2_redline_document_filter", format_func=_value_label)
     filtered = filter_v2_redline(changes, meeting_id, selected_changes, selected_documents)
     cols = [
         col
@@ -945,14 +972,14 @@ def _render_v2_redline_explorer(latest: pd.Series, redline: pd.DataFrame) -> Non
 
 def _render_v2_audit(model_audit: pd.DataFrame, model_audit_details: pd.DataFrame) -> None:
     if model_audit.empty:
-        st.info("Auditoria ainda não gerada.")
+        st.info("Audit not yet generated.")
         return
     metrics = model_audit.copy()
     if "value" in metrics:
-        metrics["value"] = metrics["value"].map(lambda value: _fmt(value) if pd.notna(value) else "n.d.")
+        metrics["value"] = metrics["value"].map(lambda value: _fmt(value) if pd.notna(value) else "n/a")
     st.dataframe(_display_frame(metrics), use_container_width=True, hide_index=True)
     if model_audit_details.empty:
-        st.info("Sem detalhes de auditoria porque ainda não há rótulos humanos aceitos.")
+        st.info("Audit details are unavailable because no human labels have been accepted yet.")
         return
     detail_cols = [
         col
@@ -973,27 +1000,27 @@ def _render_v2_audit(model_audit: pd.DataFrame, model_audit_details: pd.DataFram
 
 def _render_v2_semantic_search(semantic_chunks: pd.DataFrame) -> None:
     if semantic_chunks.empty:
-        st.info("Índice semântico local indisponível. Rode `copom-watch semantic build-index`.")
+        st.info("Local semantic index unavailable. Run `copom-watch semantic build-index`.")
         return
     with st.form("v2_semantic_search_form"):
         c1, c2 = st.columns([3, 1])
         query = c1.text_input(
-            "Busca semântica local",
+            "Local semantic search",
             value="",
-            placeholder="Ex.: expectativas desancoradas",
+            placeholder="E.g. unanchored expectations",
             key="v2_semantic_query",
         )
-        top_n = c2.number_input("Resultados", min_value=3, max_value=25, value=10, step=1, key="v2_semantic_top_n")
-        submitted = st.form_submit_button("Buscar")
+        top_n = c2.number_input("Results", min_value=3, max_value=25, value=10, step=1, key="v2_semantic_top_n")
+        submitted = st.form_submit_button("Search")
     if not submitted:
-        st.info("Digite uma consulta e clique em Buscar para listar sentenças históricas com citação.")
+        st.info("Enter a question and select Search to find historical sentences with citations.")
         return
     if not query.strip():
-        st.info("Digite uma consulta para buscar sentenças históricas com citação.")
+        st.info("Enter a question to search historical sentences with citations.")
         return
     results = semantic_search_for_dashboard(query, semantic_chunks, top_n=int(top_n))
     if results.empty:
-        st.info("Nenhum resultado encontrado para a consulta.")
+        st.info("No results found for this question.")
         return
     display_cols = [
         col
@@ -1017,22 +1044,22 @@ def _render_v21_optional_panel(
         else pd.Series(dtype=object)
     )
     c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Surpresa da decisão", _fmt(panel_row.get("decision_surprise_bps") if not panel_row.empty else pd.NA))
-    c2.metric("Status do Focus", _status_label(panel_row.get("focus_status", "not_available") if not panel_row.empty else "not_built"))
-    c3.metric("Status do mercado", _status_label(panel_row.get("market_status", "no_market_data") if not panel_row.empty else "not_built"))
-    c4.metric("Janelas de mercado OK", _fmt(panel_row.get("market_ok_windows") if not panel_row.empty else pd.NA))
+    c1.metric("Decision surprise", _fmt(panel_row.get("decision_surprise_bps") if not panel_row.empty else pd.NA))
+    c2.metric("Focus status", _status_label(panel_row.get("focus_status", "not_available") if not panel_row.empty else "not_built"))
+    c3.metric("Market status", _status_label(panel_row.get("market_status", "no_market_data") if not panel_row.empty else "not_built"))
+    c4.metric("Valid market windows", _fmt(panel_row.get("market_ok_windows") if not panel_row.empty else pd.NA))
 
-    st.caption("Diagnóstico descritivo: decisão, Focus e reação de mercado em janelas de evento, sem leitura causal.")
+    st.caption("Descriptive analysis of decisions, Focus expectations and market moves in event windows; no causal inference.")
     left, right = st.columns(2)
     with left:
-        st.markdown("**Monitor Focus**")
+        st.markdown("**Focus monitor**")
         focus_view = (
             focus_event_features[focus_event_features["meeting_id"].astype(str) == meeting_id].copy()
             if not focus_event_features.empty and "meeting_id" in focus_event_features
             else pd.DataFrame()
         )
         if focus_view.empty:
-            st.info("Focus indisponível. Atualize os dados de Focus antes de consultar esta seção.")
+            st.info("Focus data are unavailable. Refresh the Focus data before using this section.")
         else:
             cols = [
                 col
@@ -1052,14 +1079,14 @@ def _render_v21_optional_panel(
             ]
             st.dataframe(_display_frame(focus_view[cols].head(80)), use_container_width=True, hide_index=True)
     with right:
-        st.markdown("**Reação de mercado**")
+        st.markdown("**Market reaction**")
         market_view = (
             market_event_windows[market_event_windows["meeting_id"].astype(str) == meeting_id].copy()
             if not market_event_windows.empty and "meeting_id" in market_event_windows
             else pd.DataFrame()
         )
         if market_view.empty:
-            st.info("Mercado opcional ausente. Importe CSV e rode `copom-watch market event-study`.")
+            st.info("Optional market data are unavailable. Import a CSV and run `copom-watch market event-study`.")
         else:
             cols = [
                 col
@@ -1068,7 +1095,7 @@ def _render_v21_optional_panel(
             ]
             st.dataframe(_display_frame(market_view[cols].head(80)), use_container_width=True, hide_index=True)
     if not decision_expectations.empty:
-        with st.expander("Expectativas de decisão importadas"):
+        with st.expander("Imported decision expectations"):
             view = (
                 decision_expectations[decision_expectations["meeting_id"].astype(str) == meeting_id].copy()
                 if "meeting_id" in decision_expectations
@@ -1131,12 +1158,12 @@ def _v2_bullets(latest: pd.Series, subindices: pd.DataFrame) -> list[str]:
     bullets = []
     surprise = latest.get("communication_surprise_naive")
     if pd.notna(surprise):
-        direction = "mais restritiva" if float(surprise) > 0 else "mais expansionista" if float(surprise) < 0 else "estável"
-        bullets.append(f"A mudança textual simples ficou {direction} contra a reunião anterior.")
+        direction = "more hawkish" if float(surprise) > 0 else "more dovish" if float(surprise) < 0 else "unchanged"
+        bullets.append(f"The simple textual change was {direction} compared with the previous meeting.")
     if not subindices.empty and subindices["tone_raw"].notna().any():
         strongest = subindices.loc[subindices["tone_raw"].abs().idxmax()]
-        bullets.append(f"A maior contribuição por tópico veio de {_value_label(strongest['label'])}.")
-    bullets.append("A leitura separa nível de tom de novidade textual e preserva versões de modelo, taxonomia e calibração.")
+        bullets.append(f"The largest topic contribution came from {_value_label(strongest['label'])}.")
+    bullets.append("The analysis separates tone level from new wording and preserves model, taxonomy and calibration versions.")
     return bullets
 
 

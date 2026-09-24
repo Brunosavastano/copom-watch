@@ -1,3 +1,5 @@
+> Public dashboard: English interface, charts, methodology and evidence search. Official quotations remain in their original Portuguese, with English citation labels. Analytical scores and source data are unchanged.
+
 # COPOM Watch
 
 Aplicacao analitica para transformar comunicados e atas do COPOM em um indicador quantitativo, interpretavel e auditavel de tom de politica monetaria hawkish/dovish.
@@ -13,7 +15,7 @@ O deploy publico foi preparado para o Streamlit Community Cloud.
 - Repositorio: `Brunosavastano/copom-watch`
 - Branch de deploy: `main`
 - Arquivo principal: `streamlit_app.py`
-- URL sugerida no Streamlit Cloud: `https://copom-watch.streamlit.app`
+- URL sugerida no Streamlit Cloud: `https://copomwatch.streamlit.app`
 
 Execucao local equivalente:
 

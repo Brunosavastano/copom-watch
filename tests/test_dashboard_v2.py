@@ -1,7 +1,7 @@
 import pandas as pd
 
 from copom_tone_index.dashboard.app import APP_TABS, filter_v2_evidence, filter_v2_redline, help_label, load_data, semantic_search_for_dashboard
-from copom_tone_index.dashboard.ui_copy import GLOSSARY, PAGE_COPY
+from copom_tone_index.dashboard.ui_copy_en import GLOSSARY, PAGE_COPY
 from copom_tone_index.semantic import build_semantic_chunks
 from copom_tone_index.storage import write_tables
 
@@ -103,7 +103,7 @@ def test_semantic_search_for_dashboard_returns_citations() -> None:
 
     assert len(results) == 1
     assert results["sentence_id"].iloc[0] == "s1"
-    assert "Reunião 270" in results["citation"].iloc[0]
+    assert "Meeting 270" in results["citation"].iloc[0]
 
 
 def test_dashboard_load_data_reads_public_package(tmp_path) -> None:
@@ -160,19 +160,19 @@ def test_dashboard_pages_have_guided_explanations() -> None:
 
 def test_dashboard_core_terms_have_tooltips() -> None:
     required_terms = [
-        "Tom bruto",
-        "Índice de tom",
-        "Surpresa textual",
-        "Intensidade",
-        "Calibração",
-        "Mudança textual",
-        "Subíndices",
+        "Raw tone",
+        "Tone index",
+        "Textual surprise",
+        "Intensity",
+        "Calibration",
+        "Text change",
+        "Subindices",
         "Focus",
-        "Reação de mercado",
-        "Frases-chave",
-        "Auditoria",
-        "Busca com evidências",
-        "Período analisado",
+        "Market reaction",
+        "Key sentences",
+        "Audit",
+        "Evidence search",
+        "Analysis period",
     ]
 
     for term in required_terms:
@@ -184,8 +184,8 @@ def test_dashboard_core_terms_have_tooltips() -> None:
 def test_dashboard_public_labels_are_product_oriented() -> None:
     labels = [label for label, _ in APP_TABS]
 
-    assert "Evolução do tom" in labels
-    assert "Perguntas com evidências" in labels
+    assert "Tone over time" in labels
+    assert "Questions with evidence" in labels
     assert "Linha do tempo" not in labels
-    assert "Busca com evidências" not in labels
+    assert "Evidence search" not in labels
     assert all("V2" not in label for label in labels)
